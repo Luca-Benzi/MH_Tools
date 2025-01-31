@@ -1,0 +1,91 @@
+ /* freshPane(cp -> {
+            JButton b1, b2;  
+            JPanel newPanel;  
+            JLabel questionLabel, userLabel, emptyLabel; 
+            final JTextField  textField1;    
+            questionLabel = new JLabel();  
+            questionLabel.setText("Admin or User");      
+            emptyLabel = new JLabel();
+            emptyLabel.setText(" ");
+            userLabel = new JLabel();
+            userLabel.setText("Insert Username if registered");
+            b1 = new JButton("ADMIN"); 
+            b2 = new JButton("USER"); 
+            textField1 = new JTextField(15);     
+            newPanel = new JPanel(new GridLayout(3, 2));  
+            newPanel.add(questionLabel);     
+            newPanel.add(emptyLabel);
+            newPanel.add(b1);             
+            newPanel.add(b2);              
+            newPanel.add(userLabel);
+            newPanel.add(textField1);              
+            cp.add(newPanel, BorderLayout.CENTER); 
+            b1.addActionListener(e -> this.getController().admin());
+            b2.addActionListener(e -> this.getController().user(textField1.getText()));
+        }); */
+
+
+
+/* 
+    public void user(String username) {
+        freshPane( cp -> { 
+            cp.setLayout(new GridLayout(5,2));
+            List<String> monsters = this.getController().getMonsters();
+            JComboBox<String> monstersBox = new JComboBox<>(monsters.toArray(new String[0]));
+            cp.add(monstersBox);
+            JButton b1 = new JButton("go");
+            cp.add(b1);
+            b1.addActionListener(event -> this.getController().monsterView((String) monstersBox.getSelectedItem())); 
+            List<String> games = this.getController().getGames();
+            JComboBox<String> gamesBox = new JComboBox<>(games.toArray(new String[0]));
+            cp.add(gamesBox);
+            JButton b2 = new JButton("go");
+            cp.add(b2);
+            b2.addActionListener(event ->System.out.println(gamesBox.getSelectedItem())); 
+        }); */
+
+
+ /* 
+    public void monsterView(String monster) {
+        freshPane( cp -> {
+            cp.setLayout(new GridLayout(5,5));
+            JPanel top = new JPanel(new BorderLayout());
+            JLabel title = new JLabel(monster);
+            title.setFont(title.getFont().deriveFont(60f));
+            top.add(title, BorderLayout.NORTH);
+            JLabel sub = new JLabel("Variant: " + this.getController().getVariant(monster));
+            JPanel mid = new JPanel(new GridLayout(10,10));
+            mid.add(clickableLabel("Category: " + this.getController().getCategory(monster), () -> this.getController().categoryView(this.getController().getCategory(monster))));
+            mid.add(sub);
+            mid.add(new JLabel("Games this monster is present in: "));
+            for (String  game : this.getController().getExistsIn(monster)) {
+                mid.add(clickableLabel(game, () -> this.getController().gameView(game)));
+            }
+            JPanel mid2 = new JPanel(new GridLayout(10,10));
+            mid2.add(new JLabel("Maps this monster is present in: "));
+            for (String  map : this.getController().getMaps()) {
+                mid2.add(clickableLabel(map, () -> this.getController().gameView(map)));
+            }
+            JPanel bot = new JPanel(new GridLayout(10,10));
+            bot.add(new JLabel("Materials Dropped by this monster: "));
+            for (String  material : this.getController().getMaterials()) {
+                bot.add(clickableLabel(material, () -> this.getController().materialView(material)));
+            }
+            JPanel bot2 = new JPanel(new GridLayout(10,10));
+            bot2.add(new JLabel("Quests where this monster is the target: "));
+            for (String  quest : this.getController().getQuests()) {
+                bot2.add(clickableLabel(quest, () -> this.getController().questView(quest)));
+            }
+            cp.add(top);
+            cp.add(mid);
+            cp.add(mid2);
+            cp.add(bot);
+            cp.add(bot2);
+            JPanel backPan = new JPanel(new BorderLayout());
+            JButton back = new JButton("back");
+            back.addActionListener(e -> this.getController().user(this.user));
+            backPan.add(back, BorderLayout.WEST);
+            cp.add(backPan, BorderLayout.SOUTH);
+            this.mainFrame.pack();
+        });
+    } */
