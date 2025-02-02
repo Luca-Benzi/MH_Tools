@@ -359,6 +359,36 @@ public List<String> getDeviceList() {
         return Statistical.DAO.getBotSuccessfulHunters(connection);
     }
 
-    
+//Admin Inserts
+    public void addMonster(String monster,String category,Boolean variant)
+    {
+        AdminInputs.DAO.addMonster(connection, monster, category, variant);
+    }
+    public void addGame(String name,String release)
+    {
+        AdminInputs.DAO.addGame(connection, name, release);
+    }
+    public  void addMap(String map,String game) {
+        AdminInputs.DAO.addMap(connection, map, game);
+    }
+    public  void addDevice(String device) {
+        AdminInputs.DAO.addDevice(connection, device);
+    }
+    public void addGameDev(String game, String Device) {
+        AdminInputs.DAO.addGameDev(connection, game, Device);
+    }
+    public void addMongame(String mon, String game) {
+        AdminInputs.DAO.addMongame(connection, mon, game);
+    }
+    public void addMonMap(String mon, String map, String game) {
+        AdminInputs.DAO.addMonMap(connection, mon, map, game);
+    }
+    public void addMaterial(String mat, String mon, Integer rar) {
+        AdminInputs.DAO.addMaterial(connection, mat, mon, rar);
+    }
+    public void addQuest(String questName, String gameName, String mapName, List<String> targets){
+        AdminInputs.DAO.addQuestWithTargets(connection, questName, gameName, mapName, targets);
+    }
+
    
 }

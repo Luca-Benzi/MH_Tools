@@ -254,7 +254,7 @@ public final class View {
         gbc.gridy = 6; 
         cp.add(questsLabel, gbc);
 
-        List<String> quests = this.getController().getQuests(); 
+        List<String> quests = this.getController().getQuests().stream().sorted().collect(Collectors.toList()); 
         JComboBox<String> questsBox = new JComboBox<>(quests.toArray(new String[0]));
         gbc.gridx = 1; 
         cp.add(questsBox, gbc);
@@ -267,7 +267,7 @@ public final class View {
         );
 
         // Device Dropdown
-        JLabel deviceLabel = new JLabel("Select a Quest:");
+        JLabel deviceLabel = new JLabel("Select a Device:");
         gbc.gridx = 0; 
         gbc.gridy = 7; 
         cp.add(deviceLabel, gbc);
@@ -1272,7 +1272,7 @@ public void joinRequestView(String user) {
         freshPane( cp -> {
             cp.setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(20, 20, 20, 20); 
+            gbc.insets = new Insets(10, 10, 10, 10); 
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
         //ADD MONSTER
@@ -1307,16 +1307,6 @@ public void joinRequestView(String user) {
             JComboBox<String> varBox = new JComboBox<>(var.toArray(new String[0]));
             gbc.gridx = 3; 
             cp.add(varBox, gbc);
-            /* 
-            List<String> games = this.getController().getGames();
-            JComboBox<String> gamesBox = new JComboBox<>(games.toArray(new String[0]));
-            gbc.gridx = 4; 
-            cp.add(gamesBox, gbc);
-            List<String> maps = this.getController().getMapsfromGame((String)gamesBox.getSelectedItem());
-            JComboBox<String> mapBox = new JComboBox<>(maps.toArray(new String[0]));
-            gbc.gridx = 5; 
-            cp.add(mapBox, gbc);
-            */
             JButton addMonsterButton = new JButton("add");
             gbc.gridx = 4; 
             cp.add(addMonsterButton, gbc); 
@@ -1427,7 +1417,7 @@ public void joinRequestView(String user) {
             
             JButton addMonsterGameButton = new JButton("add");
             gbc.gridx = 3; 
-            cp.add(addMonsterGameButton, gbc); 
+            cp.add(addMonsterGameButton, gbc);  
 
         //ADD MONSTER TO MAP
             JLabel addMonsterMonMap = new JLabel("Monster:");
@@ -1444,8 +1434,12 @@ public void joinRequestView(String user) {
             JComboBox<String> monsterBox2 = new JComboBox<>(monsters.toArray(new String[0]));
             gbc.gridx = 1; 
             cp.add(monsterBox2, gbc);
-            List<String> maps = this.getController().getMaps();
-            JComboBox<String> mapBox = new JComboBox<>(maps.toArray(new String[0]));
+            List<String> map = new ArrayList<>();
+            for (String game : this.getController().getGamesWith((String) monsterBox2.getSelectedItem())) {
+                
+                map.addAll(this.getController().getMapsfromGame(game));
+            }
+            JComboBox<String> mapBox = new JComboBox<>(map.toArray(new String[0]));
             gbc.gridx = 2; 
             cp.add(mapBox, gbc);
             
@@ -1485,6 +1479,180 @@ public void joinRequestView(String user) {
             JButton addMatButton = new JButton("add");
             gbc.gridx = 4; 
             cp.add(addMatButton, gbc); 
+        //ADD QUEST
+            JLabel addQuestName = new JLabel("Name:");
+            gbc.gridx = 1;  
+            gbc.gridy = 14;
+            cp.add(addQuestName, gbc); 
+            JLabel addQuestGame= new JLabel("Game:");
+            gbc.gridx = 2;  
+            cp.add(addQuestGame, gbc); 
+            JLabel addQuestTargets= new JLabel("Targets:");
+            gbc.gridx = 3;  
+            cp.add(addQuestTargets, gbc);
+            JLabel addQuest = new JLabel("Add Quest:");
+            gbc.gridx = 0; 
+            gbc.gridy = 15; 
+            cp.add(addQuest, gbc);
+            JTextField questName = new JTextField(10);
+            gbc.gridx = 1; 
+            cp.add(questName, gbc);
+            JComboBox<String> gamesBox4 = new JComboBox<>(games.toArray(new String[0]));
+            gbc.gridx = 2; 
+            cp.add(gamesBox4, gbc);
+            List<String> mapgam = this.getController().getMapsfromGame((String) gamesBox4.getSelectedItem());     
+            JComboBox<String> mapBox3 = new JComboBox<>(mapgam.toArray(new String[0]));
+            gbc.gridy = 17;
+            gbc.gridx = 2;  
+            cp.add(mapBox3, gbc);
+            List<String> monsm = this.getController().getMonstersInMap((String) mapBox3.getSelectedItem() );
+            monsm.add(0, "none");
+            JComboBox<String> monsterBox4 = new JComboBox<>(monsm.toArray(new String[0]));
+            gbc.gridy = 15;
+            gbc.gridx = 3; 
+            cp.add(monsterBox4, gbc);
+            JComboBox<String> monsterBox5 = new JComboBox<>(monsm.toArray(new String[0]));
+            gbc.gridx = 4; 
+            cp.add(monsterBox5, gbc);
+            JComboBox<String> monsterBox6 = new JComboBox<>(monsm.toArray(new String[0]));
+            gbc.gridx = 5; 
+            cp.add(monsterBox6, gbc);       
+            JLabel addQuestMap= new JLabel("Map:");
+            gbc.gridy = 16;
+            gbc.gridx = 2;  
+            cp.add(addQuestMap, gbc);  
+            JButton addQuestButton = new JButton("add");
+            gbc.gridx = 3; 
+            gbc.gridy = 17;
+            cp.add(addQuestButton, gbc); 
+
+
+
+            addMonsterButton.addActionListener(e -> {
+                if(monsterName.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,  "Failed, one or more fields are empty");
+                }
+                else {
+                    this.getController().addMonster(monsterName.getText(),(String) monsterCat.getSelectedItem(), Boolean.parseBoolean((String)varBox.getSelectedItem()));
+                    monsterBox.removeAllItems();
+                    monsterBox2.removeAllItems();
+                    monsterBox3.removeAllItems();
+                    monsterBox4.removeAllItems();
+                    monsterBox5.removeAllItems();
+                    monsterBox6.removeAllItems();
+                    List<String> mons = this.getController().getMonsters();
+                    mons.forEach(monsterBox::addItem);
+                    mons.forEach(monsterBox2::addItem);
+                    mons.forEach(monsterBox3::addItem);
+                    List<String> monsg = this.getController().getMonstersInMap((String) mapBox.getSelectedItem() );
+                    monsg.forEach(monsterBox4::addItem);
+                    monsg.forEach(monsterBox5::addItem);
+                    monsg.forEach(monsterBox6::addItem);
+                }
+            });
+            addGameButton.addActionListener(e -> {
+                if(gameName.getText().trim().isEmpty() || gameDate.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,  "Failed, one or more fields are empty");
+                }
+                else {
+                    this.getController().addGame(gameName.getText(), gameDate.getText());
+                    gamesBox.removeAllItems();
+                    gamesBox2.removeAllItems();
+                    gamesBox3.removeAllItems();
+                    gamesBox4.removeAllItems();
+                    List<String> gam = this.getController().getGames();
+                    gam.forEach(gamesBox::addItem);
+                    gam.forEach(gamesBox2::addItem);
+                    gam.forEach(gamesBox3::addItem);
+                    gam.forEach(gamesBox4::addItem);
+                }
+            });
+
+            addMapButton.addActionListener(e -> {
+                if(mapName.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,  "Failed, one or more fields are empty");
+                }
+                else {
+                    this.getController().addMap(mapName.getText(), (String) gamesBox.getSelectedItem());
+                }
+            });
+            addDeviceButton.addActionListener(e -> {
+                if(deviceName.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,  "Failed, one or more fields are empty");
+                }
+                else {
+                    this.getController().addDevice(deviceName.getText());
+                    deviceBox.removeAllItems();
+                    List<String> devi = this.getController().getDeviceList();
+                    devi.forEach(deviceBox::addItem);
+                }
+            });
+            addDeviceGameButton.addActionListener(e -> {
+                this.getController().addGameDev((String) gamesBox2.getSelectedItem(), (String) deviceBox.getSelectedItem());
+            });
+            addMonsterGameButton.addActionListener(e -> {
+                this.getController().addMongame((String) monsterBox.getSelectedItem(), (String) gamesBox3.getSelectedItem());
+            });
+            addMonsterMapButton.addActionListener(e -> {
+                this.getController().addMonMap((String) monsterBox2.getSelectedItem(), (String) mapBox.getSelectedItem(), 
+                this.getController().getGamefromMap((String) mapBox.getSelectedItem()));
+            });
+            addMatButton.addActionListener(e -> {
+                if(matName.getText().trim().isEmpty()){
+                    JOptionPane.showMessageDialog(null,  "Failed, one or more fields are empty");
+                }
+                else {
+                    this.getController().addMaterial(matName.getText(), (String) monsterBox3.getSelectedItem(), Integer.parseInt((String)rarBox.getSelectedItem()) );
+                }
+            });
+            addQuestButton.addActionListener(e -> {
+                if( questName.getText().trim().isEmpty() || Objects.isNull(mapBox3.getSelectedItem())) {
+                    JOptionPane.showMessageDialog(null,  "Failed, one or more fields are empty");
+                }
+                else {
+                    if( monsterBox4.getSelectedItem().equals("none") && monsterBox5.getSelectedItem().equals("none") && monsterBox6.getSelectedItem().equals("none")) {
+                        JOptionPane.showMessageDialog(null,  "Failed to create quest, select at least one monster");
+                    } else {
+                        List<String> monq = new ArrayList<>();
+                        if (!monsterBox4.getSelectedItem().equals("none")) { monq.add((String)monsterBox4.getSelectedItem());}
+                        if (!monsterBox5.getSelectedItem().equals("none")) { monq.add((String)monsterBox5.getSelectedItem());}
+                        if (!monsterBox6.getSelectedItem().equals("none")) { monq.add((String)monsterBox6.getSelectedItem());}
+                        this.getController().addQuest(questName.getText(), (String) gamesBox4.getSelectedItem(), 
+                        (String) mapBox3.getSelectedItem(), monq);
+                        
+                    }
+                }
+
+            });
+
+
+
+
+            monsterBox2.addActionListener(e -> {
+                mapBox.removeAllItems();
+                List<String> mapup = new ArrayList<>();
+                for (String game : this.getController().getGamesWith((String) monsterBox2.getSelectedItem())) {
+                
+                mapup.addAll(this.getController().getMapsfromGame(game));
+                mapup.forEach(mapBox::addItem);
+                }
+            });
+            gamesBox4.addActionListener(e -> {
+                mapBox3.removeAllItems();
+                List<String> map2 = this.getController().getMapsfromGame((String) gamesBox4.getSelectedItem());
+                map2.forEach(mapBox3::addItem);
+            });
+            mapBox3.addActionListener(e ->{
+                monsterBox3.removeAllItems();
+                monsterBox4.removeAllItems();
+                monsterBox5.removeAllItems();
+                monsterBox6.removeAllItems();
+                List<String> monsg = this.getController().getMonstersInMap((String) mapBox3.getSelectedItem() );
+                monsg.add(0, "none");
+                monsg.forEach(monsterBox4::addItem);
+                monsg.forEach(monsterBox5::addItem);
+                monsg.forEach(monsterBox6::addItem);
+            });
         
             
 
@@ -1499,7 +1667,7 @@ public void joinRequestView(String user) {
             back.setFont(new Font("Arial", Font.BOLD, 16));
             back.addActionListener(e -> this.getController().loginForm());
             gbc.gridx = 5; 
-            gbc.gridy = 15; 
+            gbc.gridy = 20; 
             cp.add(back, gbc);
         });
     }

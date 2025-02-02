@@ -278,8 +278,36 @@ public final class Controller {
         return this.model.getBotSuccessfulHunters();
     }
     
-
-    
+//ADMIN INPUTS
+    public void addMonster(String monster,String category,Boolean variant)
+    {
+        this.model.addMonster( monster, category, variant);
+    }
+    public  void addGame(String game,String date) {
+         this.model.addGame(game, date);
+    }
+    public  void addMap(String map,String game) {
+        this.model.addMap(map, game);
+    }
+    public  void addDevice(String device) {
+        this.model.addDevice(device);
+    }
+    public void addGameDev(String game, String Device) {
+        this.model.addGameDev(game, Device);
+    }
+    public void addMongame(String mon, String game) {
+        this.model.addMongame(mon, game);
+    }
+    public void addMonMap( String mon,String map, String game){
+        this.model.addMonMap(mon, map, game);
+    }
+    public void addMaterial(String mat, String mon, Integer rar) {
+        this.model.addMaterial(mat, mon, rar);
+    }
+    public void addQuest(String questName, String gameName, String mapName, List<String> targets)
+    {
+        this.model.addQuest(questName, gameName, mapName, targets);
+    }
 
 }
 

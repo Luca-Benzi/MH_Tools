@@ -102,9 +102,17 @@ public interface Model {
     public List<String> getBotMonsterSuccessRates();
     public List<String> getTopSuccessfulHunters();
     public List<String> getBotSuccessfulHunters();
-    
-	
-    
+
+//ADMIN INPUTS
+    public void addMonster(String monster,String category,Boolean variant);
+	public void addGame(String name,String release);
+    public  void addMap(String map,String game);
+    public  void addDevice(String device);
+    public void addGameDev(String game, String Device);
+	public void addMongame(String mon, String game);
+	public void addMonMap(String mon, String map, String game);
+	public void addMaterial(String mat, String mon, Integer rar);
+	public void addQuest(String questName, String gameName, String mapName, List<String> targets);
     
     
     

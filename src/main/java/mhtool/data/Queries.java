@@ -298,6 +298,65 @@ public class Queries {
             u.Username
             ORDER BY
             Success_Percentage ASC;
-            """;      
+            """;
+
+    public static final String INSERT_MONSTER = 
+            """ 
+            INSERT INTO MONSTER (Monster_Name, Category, Variant)
+            VALUES (?, ?, ?)
+                    
+                    """;     
+    public static final String INSERT_GAME =   
+        """
+            INSERT INTO GAME (Game_Name, Release_Date)
+            values (?, ?)
+                """;
+    public static final String  INSERT_MAP=   
+        """
+            INSERT INTO MAP (Map_Name, Game_Name)
+            VALUES (?,?)
+                """;
+    public static final String  INSERT_DEVICE=   
+        """
+            INSERT INTO DEVICE (Device_Name)
+            VALUES (?)
+                """;
+
+    public static final String  INSERT_GAMETODEVICE=   
+        """
+            INSERT INTO RELEASED_ON (Game_Name, Device_Name)
+            VALUE (?, ?)
+                """;
+
+    public static final String  INSERT_MONSTERTOMAP=   
+        """
+            INSERT INTO LIVES_IN (Monster_Name, Map_Name, Game_Name)
+            VALUE (?, ?, ?)
+                """;
+    public static final String  INSERT_MATERIAL=   
+        """
+            INSERT INTO MATERIAL (Material_name, Monster_Name, Rarity)
+            VALUES (?, ?, ?)
+                """;
+    
+    public static final String  INSERT_QUEST=   
+        """
+            INSERT INTO HUNTING_QUEST (Quest_Name, Game_Name, Map_Name)
+            Values (?, ?, ?)
+                """;
+    public static final String  INSERT_TARGET=   
+        """
+            INSERT INTO TARGET (Monster_Name, Quest_Name, Game_name)
+            values( ?, ?, ?)
+                """;
+    public static final String  INSERT_MONSTERTOGAME=   
+        """
+            INSERT INTO Exists_IN (Monster_name, Game_Name)
+            values (?, ?)
+                """;
+                        
+    
+
+
 }
 
