@@ -98,8 +98,8 @@ public interface Model {
     public List<String> getBotPlayedGames();
     public List<String> getTopQuestSuccessRates();
     public List<String> getBotQuestSuccessRates();
-    
-    
+    public List<String> getTopMonsterSuccessRates();
+    public List<String> getBotMonsterSuccessRates();
     
 	
     

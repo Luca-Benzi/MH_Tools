@@ -210,4 +210,94 @@ public class Queries {
             ORDER BY
                 Success_Percentage ASC
             """;
+
+    public static final String getTopMonsterSuccessRates=
+    """
+            SELECT
+                t.Monster_Name,
+                COUNT(*) AS Total_Runs,
+                SUM(CASE WHEN r.result = '1' THEN 1 ELSE 0 END) AS Successful_Runs,
+                CASE 
+                    WHEN COUNT(*) = 0 THEN 0
+                    ELSE (SUM(CASE WHEN r.result = '1' THEN 1 ELSE 0 END) / COUNT(*)) * 100 
+                END AS Success_Percentage
+            FROM
+                TARGET t
+            JOIN
+                HUNTING_QUEST hq ON t.Quest_Name = hq.Quest_Name
+            JOIN
+                RUNS r ON hq.Quest_Name = r.Quest_Name
+            GROUP BY
+                t.Monster_Name
+            ORDER BY
+                Success_Percentage DESC;
+            """;
+    public static final String getBotMonsterSuccessRates=
+    """
+            SELECT
+                t.Monster_Name,
+                COUNT(*) AS Total_Runs,
+                SUM(CASE WHEN r.result = '1' THEN 1 ELSE 0 END) AS Successful_Runs,
+                CASE 
+                    WHEN COUNT(*) = 0 THEN 0
+                    ELSE (SUM(CASE WHEN r.result = '1' THEN 1 ELSE 0 END) / COUNT(*)) * 100 
+                END AS Success_Percentage
+            FROM
+                TARGET t
+            JOIN
+                HUNTING_QUEST hq ON t.Quest_Name = hq.Quest_Name
+            JOIN
+                RUNS r ON hq.Quest_Name = r.Quest_Name
+            GROUP BY
+                t.Monster_Name
+            ORDER BY
+                Success_Percentage ASC;
+            """;
+    public static final String getTopSuccessfulHunters=
+    """
+            SELECT
+            u.Username,
+            COUNT(*) AS Total_Runs,
+            SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) AS Successful Runs,
+            (SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS
+            Success_Percentage
+            FROM
+            RUNS r
+            JOIN
+            'GROUP' g ON r.Group_Id = g.Group_Id
+            JOIN
+            'PART OF' p ON g.Group_Id = p.Group_Id
+            JOIN
+            'CHARACTER' c ON p.IGN = c.IGN AND p.Game_Name = c.Game_Name
+            JOIN
+            'USER' u ON c.Username = u.Username
+            GROUP BY
+            u.Username
+            ORDER BY
+            Success_Percentage DESC;
+            """;
+    public static final String getBotSuccessfulHunters=
+        """
+            SELECT
+            u.Username,
+            COUNT(*) AS Total_Runs,
+            SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) AS Successful Runs,
+            (SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS
+            Success_Percentage
+            FROM
+            RUNS r
+            JOIN
+            'GROUP' g ON r.Group_Id = g.Group_Id
+            JOIN
+            'PART OF' p ON g.Group_Id = p.Group_Id
+            JOIN
+            'CHARACTER' c ON p.IGN = c.IGN AND p.Game_Name = c.Game_Name
+            JOIN
+            'USER' u ON c.Username = u.Username
+            GROUP BY
+            u.Username
+            ORDER BY
+            Success_Percentage ASC;
+            """;      
 }
+

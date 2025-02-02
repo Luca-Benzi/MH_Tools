@@ -99,7 +99,7 @@ public class Statistical {
                 while (rs.next()) {
                     String questName = rs.getString("Quest_Name");
                     int totalRuns = rs.getInt("Total_Runs");
-                    int successfulRuns = rs.getInt("Successful_Runs");
+                    
                     double successPercentage = rs.getDouble("Success_Percentage");
         
                     results.add(String.format("Quest: %s | Total Runs: %d | Success Rate: %.2f%%",
@@ -121,7 +121,7 @@ public class Statistical {
                 while (rs.next()) {
                     String questName = rs.getString("Quest_Name");
                     int totalRuns = rs.getInt("Total_Runs");
-                    int successfulRuns = rs.getInt("Successful_Runs");
+                    
                     double successPercentage = rs.getDouble("Success_Percentage");
         
                     results.add(String.format("Quest: %s | Total Runs: %d | Success Rate: %.2f%%",
@@ -133,5 +133,89 @@ public class Statistical {
         
             return results;
         }
+        public static List<String> getTopMonsterSuccessRates(Connection connection) {
+            List<String> results = new ArrayList<>();
+            try (Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(Queries.getTopMonsterSuccessRates)) {
+
+                while (rs.next()) {
+                    String monsterName = rs.getString("Monster_Name");
+                    int totalRuns = rs.getInt("Total_Runs");
+                    int successfulRuns = rs.getInt("Successful_Runs");
+                    double successPercentage = rs.getDouble("Success_Percentage");
+
+                    results.add(String.format("Monster: %s | Total Runs: %d | Success Rate: %.2f%%",
+                            monsterName, totalRuns, successPercentage));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return results;
+        }
+        public static List<String> getBotMonsterSuccessRates(Connection connection) {
+            List<String> results = new ArrayList<>();
+            try (Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(Queries.getBotMonsterSuccessRates)) {
+
+                while (rs.next()) {
+                    String monsterName = rs.getString("Monster_Name");
+                    int totalRuns = rs.getInt("Total_Runs");
+                    int successfulRuns = rs.getInt("Successful_Runs");
+                    double successPercentage = rs.getDouble("Success_Percentage");
+
+                    results.add(String.format("Monster: %s | Total Runs: %d | Success Rate: %.2f%%",
+                            monsterName, totalRuns, successPercentage));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return results;
+        }
+        public static List<String> getTopSuccessfulHunters(Connection connection) {
+            List<String> result = new ArrayList<>();
+
+            try (PreparedStatement stmt = connection.prepareStatement(Queries.getTopSuccessfulHunters);
+                ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    String username = rs.getString("Username");
+                    int totalRuns = rs.getInt("Total_Runs");
+                    int successfulRuns = rs.getInt("Successful_Runs");
+                    double successPercentage = rs.getDouble("Success_Percentage");
+
+                    result.add(String.format("%s: %d runs, %d successful (%.2f%%)", 
+                        username, totalRuns, successfulRuns, successPercentage));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+        public static List<String> getBotSuccessfulHunters(Connection connection) {
+            List<String> result = new ArrayList<>();
+
+            try (PreparedStatement stmt = connection.prepareStatement(Queries.getBotSuccessfulHunters);
+                ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    String username = rs.getString("Username");
+                    int totalRuns = rs.getInt("Total_Runs");
+                    int successfulRuns = rs.getInt("Successful_Runs");
+                    double successPercentage = rs.getDouble("Success_Percentage");
+
+                    result.add(String.format("%s: %d runs, %d successful (%.2f%%)", 
+                        username, totalRuns, successfulRuns, successPercentage));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
     }
-}
+}   

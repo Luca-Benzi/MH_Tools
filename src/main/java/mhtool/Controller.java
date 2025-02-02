@@ -264,7 +264,13 @@ public final class Controller {
     public List<String> getBotQuestSuccessRates() {
         return this.model.getBotQuestSuccessRates();
     }
-
+    
+    public List<String> getTopMonsterSuccessRates(){
+        return this.model.getTopMonsterSuccessRates();
+    }
+    public List<String> getBotMonsterSuccessRates(){
+        return this.model.getBotMonsterSuccessRates();
+    }
     
 
     

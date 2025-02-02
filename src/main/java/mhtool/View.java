@@ -1233,6 +1233,17 @@ public void joinRequestView(String user) {
                 String result = String.join("\n", botQuest); // Join with new lines
                 textArea.setText(result); 
             });
+            mostMonster.addActionListener(e -> {
+                List<String> topMonster = this.getController().getTopMonsterSuccessRates();
+                String result = String.join("\n", topMonster); // Join with new lines
+                textArea.setText(result);
+            });
+            leastMonster.addActionListener(e -> {
+                List<String> botMonster = this.getController().getBotMonsterSuccessRates();
+                String result = String.join("\n", botMonster); // Join with new lines
+                textArea.setText(result); 
+            });
+
 
             // Bottom Panel with Back Button
             JButton back = new JButton("Back");
