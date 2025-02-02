@@ -100,6 +100,8 @@ public interface Model {
     public List<String> getBotQuestSuccessRates();
     public List<String> getTopMonsterSuccessRates();
     public List<String> getBotMonsterSuccessRates();
+    public List<String> getTopSuccessfulHunters();
+    public List<String> getBotSuccessfulHunters();
     
 	
     

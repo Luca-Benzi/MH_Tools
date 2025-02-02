@@ -271,6 +271,12 @@ public final class Controller {
     public List<String> getBotMonsterSuccessRates(){
         return this.model.getBotMonsterSuccessRates();
     }
+    public List<String> getTopSuccessfulHunters(){
+        return this.model.getTopSuccessfulHunters();
+    }
+    public List<String> getBotSuccessfulHunters(){
+        return this.model.getBotSuccessfulHunters();
+    }
     
 
     

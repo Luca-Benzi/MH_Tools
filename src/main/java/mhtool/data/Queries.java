@@ -258,19 +258,19 @@ public class Queries {
             SELECT
             u.Username,
             COUNT(*) AS Total_Runs,
-            SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) AS Successful Runs,
+            SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) AS Successful_Runs,
             (SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS
             Success_Percentage
             FROM
             RUNS r
             JOIN
-            'GROUP' g ON r.Group_Id = g.Group_Id
+            `GROUP` g ON r.Group_Id = g.Group_Id
             JOIN
-            'PART OF' p ON g.Group_Id = p.Group_Id
+            PART_OF p ON g.Group_Id = p.Group_Id
             JOIN
-            'CHARACTER' c ON p.IGN = c.IGN AND p.Game_Name = c.Game_Name
+            `CHARACTER` c ON p.IGN = c.IGN AND p.Game_Name = c.Game_Name
             JOIN
-            'USER' u ON c.Username = u.Username
+            USER u ON c.Username = u.Username
             GROUP BY
             u.Username
             ORDER BY
@@ -281,19 +281,19 @@ public class Queries {
             SELECT
             u.Username,
             COUNT(*) AS Total_Runs,
-            SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) AS Successful Runs,
+            SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) AS Successful_Runs,
             (SUM(CASE WHEN r.result = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS
             Success_Percentage
             FROM
             RUNS r
             JOIN
-            'GROUP' g ON r.Group_Id = g.Group_Id
+            `GROUP` g ON r.Group_Id = g.Group_Id
             JOIN
-            'PART OF' p ON g.Group_Id = p.Group_Id
+            PART_OF p ON g.Group_Id = p.Group_Id
             JOIN
-            'CHARACTER' c ON p.IGN = c.IGN AND p.Game_Name = c.Game_Name
+            `CHARACTER` c ON p.IGN = c.IGN AND p.Game_Name = c.Game_Name
             JOIN
-            'USER' u ON c.Username = u.Username
+            USER u ON c.Username = u.Username
             GROUP BY
             u.Username
             ORDER BY

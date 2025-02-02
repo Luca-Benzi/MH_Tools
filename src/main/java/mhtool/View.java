@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -1243,6 +1244,16 @@ public void joinRequestView(String user) {
                 String result = String.join("\n", botMonster); // Join with new lines
                 textArea.setText(result); 
             });
+            mostPlayer.addActionListener(e -> {
+                List<String> topPlayer = this.getController().getTopSuccessfulHunters();
+                String result = String.join("\n", topPlayer); // Join with new lines
+                textArea.setText(result);
+            });
+            leastPlayer.addActionListener(e -> {
+                List<String> botPlayer = this.getController().getBotSuccessfulHunters();
+                String result = String.join("\n", botPlayer); // Join with new lines
+                textArea.setText(result); 
+            });
 
 
             // Bottom Panel with Back Button
@@ -1259,7 +1270,237 @@ public void joinRequestView(String user) {
 
     public void admin() {
         freshPane( cp -> {
+            cp.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(20, 20, 20, 20); 
+            gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        //ADD MONSTER
+            JLabel addMonster = new JLabel("Add new Monster:");
+            gbc.gridx = 0; 
+            gbc.gridy = 1; 
+            cp.add(addMonster, gbc);
+            JLabel addMonsterName = new JLabel("Name :");
+            gbc.gridy = 0;
+            gbc.gridx = 1;  
+            cp.add(addMonsterName, gbc);
+            JLabel addMonsterCat = new JLabel("Category:");
+            gbc.gridx = 2;  
+            cp.add(addMonsterCat, gbc);
+            JLabel addMonsterVar = new JLabel("Variant:");
+            gbc.gridx = 3;  
+            cp.add(addMonsterVar, gbc);
+            /* 
+            JLabel addMonsterMap = new JLabel("Map:");
+            gbc.gridx = 5;  
+            cp.add(addMonsterMap, gbc);
+            */
+            JTextField monsterName = new JTextField(10);
+            gbc.gridx = 1; 
+            gbc.gridy = 1; 
+            cp.add(monsterName, gbc);
+            List<String> cat = this.getController().getCategoryList();
+            JComboBox<String> monsterCat = new JComboBox<>(cat.toArray(new String[0]));
+            gbc.gridx = 2; 
+            cp.add(monsterCat, gbc);
+            List<String> var = new ArrayList<>(List.of("True", "False"));
+            JComboBox<String> varBox = new JComboBox<>(var.toArray(new String[0]));
+            gbc.gridx = 3; 
+            cp.add(varBox, gbc);
+            /* 
+            List<String> games = this.getController().getGames();
+            JComboBox<String> gamesBox = new JComboBox<>(games.toArray(new String[0]));
+            gbc.gridx = 4; 
+            cp.add(gamesBox, gbc);
+            List<String> maps = this.getController().getMapsfromGame((String)gamesBox.getSelectedItem());
+            JComboBox<String> mapBox = new JComboBox<>(maps.toArray(new String[0]));
+            gbc.gridx = 5; 
+            cp.add(mapBox, gbc);
+            */
+            JButton addMonsterButton = new JButton("add");
+            gbc.gridx = 4; 
+            cp.add(addMonsterButton, gbc); 
+            
+        //ADD GAME
+            JLabel addGameName = new JLabel("Name:");
+            gbc.gridx = 1;  
+            gbc.gridy = 2;
+            cp.add(addGameName, gbc);
+            JLabel addGameDate = new JLabel("Release date(yyyy-mm-dd):");
+            gbc.gridx = 2;  
+            cp.add(addGameDate, gbc);
+            JLabel addGame = new JLabel("Add new Game:");
+            gbc.gridx = 0; 
+            gbc.gridy = 3; 
+            cp.add(addGame, gbc);
+            JTextField gameName = new JTextField(10);
+            gbc.gridx = 1; 
+            cp.add(gameName, gbc);
+            JTextField gameDate = new JTextField(10);
+            gbc.gridx = 2;  
+            cp.add(gameDate, gbc);
+            JButton addGameButton = new JButton("add");
+            gbc.gridx = 3; 
+
+        //ADD MAP
+            cp.add(addGameButton, gbc); 
+            JLabel addMapName = new JLabel("Name:");
+            gbc.gridx = 1;  
+            gbc.gridy = 4;
+            cp.add(addMapName, gbc); 
+            JLabel addMapGame = new JLabel("Game:");
+            gbc.gridx = 2;  
+            cp.add(addMapGame, gbc);
+            JLabel addMap = new JLabel("Add New Map:");
+            gbc.gridx = 0;  
+            gbc.gridy = 5;
+            cp.add(addMap, gbc);
+            JTextField mapName = new JTextField(10);
+            gbc.gridx = 1; 
+            cp.add(mapName, gbc);
+            List<String> games = this.getController().getGames();
+            JComboBox<String> gamesBox = new JComboBox<>(games.toArray(new String[0]));
+            gbc.gridx = 2; 
+            cp.add(gamesBox, gbc);
+            JButton addMapButton = new JButton("add");
+            gbc.gridx = 3; 
+            cp.add(addMapButton, gbc); 
+
+        //ADD DEVICE
+            JLabel addDeviceName = new JLabel("Name:");
+            gbc.gridx = 1;  
+            gbc.gridy = 6;
+            cp.add(addDeviceName, gbc); 
+            JLabel addDevice = new JLabel("Add Device:");
+            gbc.gridx = 0;  
+            gbc.gridy = 7;
+            cp.add(addDevice, gbc); 
+            JTextField deviceName = new JTextField(10);
+            gbc.gridx = 1; 
+            cp.add(deviceName, gbc);
+            JButton addDeviceButton = new JButton("add");
+            gbc.gridx = 2; 
+            cp.add(addDeviceButton, gbc); 
+
+        //ADD GAME TO DEVICE
+            JLabel addDeviceGame = new JLabel("Game:");
+            gbc.gridx = 4;  
+            gbc.gridy = 6;
+            cp.add(addDeviceGame, gbc); 
+            JLabel addDeviceDev = new JLabel("Device:");
+            gbc.gridx = 5;  
+            cp.add(addDeviceDev, gbc); 
+            JLabel addDevGame = new JLabel("Add Game to Device:");
+            gbc.gridx = 3; 
+            gbc.gridy = 7; 
+            cp.add(addDevGame, gbc);
+            JComboBox<String> gamesBox2 = new JComboBox<>(games.toArray(new String[0]));
+            gbc.gridx = 4; 
+            cp.add(gamesBox2, gbc);
+            List<String> devices = this.getController().getDeviceList();
+            JComboBox<String> deviceBox = new JComboBox<>(devices.toArray(new String[0]));
+            gbc.gridx = 5; 
+            cp.add(deviceBox, gbc);
+            JButton addDeviceGameButton = new JButton("add");
+            gbc.gridx = 6; 
+            cp.add(addDeviceGameButton, gbc); 
+
+        //ADD MONSTER TO GAME
+            JLabel addMonsterMon = new JLabel("Monster:");
+            gbc.gridx = 1;  
+            gbc.gridy = 8;
+            cp.add(addMonsterMon, gbc); 
+            JLabel addMonsterGame= new JLabel("Game:");
+            gbc.gridx = 2;  
+            cp.add(addMonsterGame, gbc); 
+            JLabel addMonsterG = new JLabel("Add Monster to game:");
+            gbc.gridx = 0; 
+            gbc.gridy = 9; 
+            cp.add(addMonsterG, gbc);
+            List<String> monsters = this.getController().getMonsters();
+            JComboBox<String> monsterBox = new JComboBox<>(monsters.toArray(new String[0]));
+            gbc.gridx = 1; 
+            cp.add(monsterBox, gbc);
+            JComboBox<String> gamesBox3 = new JComboBox<>(games.toArray(new String[0]));
+            gbc.gridx = 2; 
+            cp.add(gamesBox3, gbc);
+            
+            JButton addMonsterGameButton = new JButton("add");
+            gbc.gridx = 3; 
+            cp.add(addMonsterGameButton, gbc); 
+
+        //ADD MONSTER TO MAP
+            JLabel addMonsterMonMap = new JLabel("Monster:");
+            gbc.gridx = 1;  
+            gbc.gridy = 10;
+            cp.add(addMonsterMonMap, gbc); 
+            JLabel addMonsterMap= new JLabel("Map:");
+            gbc.gridx = 2;  
+            cp.add(addMonsterMap, gbc); 
+            JLabel addMonsterM = new JLabel("Add Monster to map:");
+            gbc.gridx = 0; 
+            gbc.gridy = 11; 
+            cp.add(addMonsterM, gbc);
+            JComboBox<String> monsterBox2 = new JComboBox<>(monsters.toArray(new String[0]));
+            gbc.gridx = 1; 
+            cp.add(monsterBox2, gbc);
+            List<String> maps = this.getController().getMaps();
+            JComboBox<String> mapBox = new JComboBox<>(maps.toArray(new String[0]));
+            gbc.gridx = 2; 
+            cp.add(mapBox, gbc);
+            
+            JButton addMonsterMapButton = new JButton("add");
+            gbc.gridx = 3; 
+            cp.add(addMonsterMapButton, gbc); 
+        //ADD MATERIAL TO MONSTER
+            JLabel AddMatname = new JLabel("Name:");
+            gbc.gridx = 1;  
+            gbc.gridy = 12;
+            cp.add(AddMatname, gbc); 
+            JLabel addMonsterMat= new JLabel("Monster:");
+            gbc.gridx = 2;  
+            cp.add(addMonsterMat, gbc); 
+            JLabel addMatRar= new JLabel("rarity:");
+            gbc.gridx = 3;  
+            cp.add(addMatRar, gbc);
+            JLabel addMat = new JLabel("Add Material to Monster:");
+            gbc.gridx = 0; 
+            gbc.gridy = 13; 
+            cp.add(addMat, gbc);
+            JTextField matName = new JTextField(10);
+            gbc.gridx = 1; 
+            cp.add(matName, gbc);
+            JComboBox<String> monsterBox3 = new JComboBox<>(monsters.toArray(new String[0]));
+            gbc.gridx = 2; 
+            cp.add(monsterBox3, gbc);
+            List<Integer> rar = IntStream.rangeClosed(1, 10)
+                                                .boxed().toList();
+                                                String[] rarArray = rar.stream()
+                                                .map(String::valueOf)
+                                                .toArray(String[]::new);
+            JComboBox<String> rarBox = new JComboBox<>(rarArray);
+            gbc.gridx =3; 
+            cp.add(rarBox, gbc);
+            
+            JButton addMatButton = new JButton("add");
+            gbc.gridx = 4; 
+            cp.add(addMatButton, gbc); 
+        
+            
+
+            
+
+
+
+
+
+                    // Bottom Panel with Back Button
+            JButton back = new JButton("Back");
+            back.setFont(new Font("Arial", Font.BOLD, 16));
+            back.addActionListener(e -> this.getController().loginForm());
+            gbc.gridx = 5; 
+            gbc.gridy = 15; 
+            cp.add(back, gbc);
         });
     }
 
@@ -1303,7 +1544,7 @@ public void joinRequestView(String user) {
             gbc.gridx = 1; 
             cp.add(mailField, gbc);
 
-            JLabel passLabel = new JLabel("Insert UserName: ");
+            JLabel passLabel = new JLabel("Insert Password: ");
             gbc.gridx = 0; 
             gbc.gridy = 5; 
             cp.add(passLabel, gbc);

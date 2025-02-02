@@ -352,6 +352,12 @@ public List<String> getDeviceList() {
     public List<String> getBotMonsterSuccessRates() {
         return Statistical.DAO.getBotMonsterSuccessRates(connection);
     }
+    public List<String> getTopSuccessfulHunters() {
+        return Statistical.DAO.getTopSuccessfulHunters(connection);
+    }
+    public List<String> getBotSuccessfulHunters() {
+        return Statistical.DAO.getBotSuccessfulHunters(connection);
+    }
 
     
    
