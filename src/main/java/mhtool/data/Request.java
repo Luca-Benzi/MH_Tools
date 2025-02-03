@@ -29,6 +29,7 @@ public class Request {
         try (PreparedStatement huntStmt = connection.prepareStatement(Queries.insertHuntSQL, Statement.RETURN_GENERATED_KEYS)) {
             huntStmt.setString(1, username);
             huntStmt.setString(2, gameName);
+            huntStmt.setBoolean(3, false);
             huntStmt.executeUpdate();
 
             try (ResultSet rs = huntStmt.getGeneratedKeys()) {
@@ -125,7 +126,7 @@ public class Request {
                         }
         
                         // Format the Hunt Request
-                        String huntDetails = String.format(requestId + ":Hunt Request by: %s\nTarget Monsters: %s\nGroup Members: %s",
+                        String huntDetails = String.format(requestId + ":    Hunt Request by: %s\n   Target Monsters: %s\n  Group Members: %s",
                                 creator,
                                 monsters.isEmpty() ? "None" : String.join(", ", monsters),
                                 members.isEmpty() ? "No other members" : String.join(", ", members)
@@ -150,7 +151,7 @@ public class Request {
                 findOwnerStmt.setString(1, ign);
                 try (ResultSet ownerResult = findOwnerStmt.executeQuery()) {
                     if (!ownerResult.next()) {  
-                        System.err.println(" Error: No character found with IGN '" + ign + "'");
+                        JOptionPane.showMessageDialog(null, "You dont have characters in this game");
                         return;
                     }
                     String username = ownerResult.getString("Username");

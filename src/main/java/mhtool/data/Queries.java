@@ -108,6 +108,7 @@ public class Queries {
         JOIN `GROUP` g ON hr.Request_Id = g.Request_Id
         JOIN `PART_OF` p ON g.Group_Id = p.Group_Id
         WHERE hr.Game_Name = ?
+        AND hr.closed = false
         GROUP BY hr.Request_Id
         HAVING COUNT(p.Username) < 4
         """;
